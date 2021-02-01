@@ -2,16 +2,37 @@ PBADownloader 0.1.0
 ================
 2021-02-01
 
------
+# Corrections
+
+None for the moment…
 
 # Description
+
+This library helps the user to create a single library with all the
+files within the Plan Básico Autonómico (PBA) of Galicia. There already
+exist a webmap where geodata and maps from each municipality can be
+downloaded. However, this web site just allows the user to download
+municipalities individualy and restricting to a maximum of 6
+simultaneous downloads. With this tools you can:
+
+  - Download the PBA for a list of concellos (municipalities) without
+    taking care of the server restrictions as they are already
+    implemented.
+  - Download the PBA for the 313 concellos in just one execution.
+  - Create a structured directory with all the concellos and their
+    respective original .zip files, where maps and other complementary
+    information will be stored.
+  - Create a single file (.gpkg) will all the geographic information
+    downloaded.
+      - Each layer contains in their name they origin and category of
+        information, what facilitates representation.
 
 # Installation
 
 This packages has been tested in:
 
   - Ubuntu 20.04 with R 4.0.3
-  - Windows 10 with R 4.0 + Rtools40
+  - Windows 10 with R 4.0 + Rtools 4.0
 
 Install dependencies (libraries) in R:
 
@@ -38,9 +59,7 @@ Autonómico](http://mapas.xunta.gal/visores/descargas-pba/).
 [![Plan Básico
 Autonómico](./man/figures/I00.png)](http://mapas.xunta.gal/visores/descargas-pba/)
 
-Enjoy.
-
------
+ENJOY DATA
 
 # Examples
 
@@ -64,11 +83,10 @@ pbaurls$Concello
 
 #-----------------------------------------------------------------------
 # Single execution
-PBADownloader("Beade", outdir)
+PBADownloader("Beade", outdir, pbaurls)
 
 # Single execution in a serie of municipalities (on by one)
-concellos <- c("Paderne", "Pol","A Peroxa", "Sarria",
-               "Taboada", "Parada De Sil", "Vedra")
+concellos <- list("Paderne", "Pol","A Peroxa")
 lapply(concellos, PBADownloader, outdir)
 
 # Download all
@@ -76,43 +94,22 @@ concellos <- pbaurls$Concello
 lapply(concellos, PBADownloader, outdir)
 ```
 
-<div class="figure" style="text-align: center">
-
-<img src="./man/figures/I00.png" alt="Screenshots of generated files (.gpkg) for several excutions" width="100%" />
-
-<p class="caption">
-
-Screenshots of generated files (.gpkg) for several excutions
-
-</p>
-
-</div>
+![](./man/figures/I01.png)
 
 ## Parallel process for several municipalities
 
 ``` r
 # execute in parallel
 pbaurls$Concello # show municipalities available
-concellos <- c("Paderne", "Pol","A Peroxa", "Sarria")
-parPBADownloader(concellos, outdir, ncores = 5)
+concellos <- list("Paderne", "Pol", "A Peroxa")
+parPBADownloader(concellos, outdir, pbaurls, ncores = 5)
 
 # DOWNLOAD ALL IN PARALLEL  (BE CAREFUL...)
 concellos <- pbaurls$Concello
-parPBADownloader(concellos, outdir, ncores = 6)
+parPBADownloader(concellos, outdir, pbaurls, ncores = 5)
 ```
 
-<div class="figure" style="text-align: center">
-
-<img src="./man/figures/I00.png" alt="Some example of buildingparts" width="100%" />
-
-<p class="caption">
-
-Some example of
-buildingparts
-
-</p>
-
-</div>
+![](./man/figures/I03.png)
 
 ## PBAmixer: this allows the user to condense all the downloaded layers into a single file
 
@@ -121,55 +118,21 @@ buildingparts
 #' PBAmixer(outdir)
 ```
 
-<div class="figure" style="text-align: center">
-
-<img src="./man/figures/I00.png" alt="Some example of buildingparts" width="100%" />
-
-<p class="caption">
-
-Some example of buildingparts
-
-</p>
-
-</div>
+![](./man/figures/I05.png)
 
 ## Screenshots of the results
 
-<p align="center">
+![](./man/figures/I01.png)
 
-<img width="300" src="./man/figures/I00.png">
+![](./man/figures/I02.png)
 
-</p>
+![](./man/figures/I03.png)
 
-#### Screenshot of Ceuta
-
-<p align="center">
-
-<img width="800" src="./man/figures/I00.png">
-
-</p>
-
-#### Detail of Ceuta
-
-<p align="center">
-
-<img width="800" src="./man/figures/I00.png">
-
-</p>
-
-#### Screenshot of Orense (somewhere)
-
-<p align="center">
-
-<img width="800" src="./man/figures/I00.png">
-
-</p>
-
-# Notes for the future:
+![](./man/figures/I05.png)
 
 -----
 
-# Corrections:
+# Notes for the future:
 
   - It could be interesting to mix the layers into a single layer by
     categorie.

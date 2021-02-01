@@ -10,7 +10,8 @@ Description: The package download the PBA for a Municipality, list or all and cr
 License: GNU
 Encoding: UTF-8
 LazyData: true
-Dependencies: 
+Depends:
+        foreach,
         sf,
         stringr,
         tibble,

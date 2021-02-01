@@ -19,15 +19,16 @@
 #' outdir <- '../02_OUTPUT/'
 #'
 #' pbaurls$Concello # show municipalities available
-#' concellos <- c("Paderne", "Pol","A Peroxa", "Sarria")
+#' concellos <- list("Paderne", "Pol","A Peroxa")
 #' parPBADownloader(concellos, outdir, ncores = 5)
 #'
 #' # DOWNLOAD ALL IN PARALLEL
 #' concellos <- pbaurls$Concello
 #' parPBADownloader(concellos, outdir, ncores = 6)
 #' }
-parPBADownloader <- function(concellos, outdir, ncores=5){
+parPBADownloader <- function(concellos, outdir, pbaurls, ncores=5){
         # set max cores, meaning max simulataneus downloads too
+        concellos = concellos
         maxload <- ifelse(ncores>=5, 5, ncores)
         if (Sys.info()[[1]] == "Windows") {
                 # Set parallel
@@ -36,7 +37,7 @@ parPBADownloader <- function(concellos, outdir, ncores=5){
                 clusterEvalQ(cl, library("PBADownloader")) # load libraries
                 clusterExport(cl, c('concellos', 'outdir', 'ncores'))
                 # Execute function
-                foreach(i=concellos) %dopar% {PBADownloader(i,outdir)}
+                foreach(i=concellos) %dopar% {PBADownloader::PBADownloader(i, outdir, pbaurls)}
                 # Stop parallel
                 stopCluster(cl)
         } else if (Sys.info()[[1]] == "Linux"){
@@ -44,7 +45,7 @@ parPBADownloader <- function(concellos, outdir, ncores=5){
                 cl <- parallel::makeCluster(maxload, type="FORK")
                 doParallel::registerDoParallel(cl)
                 # Execute function
-                foreach(i=concellos) %dopar% {PBADownloader(i,outdir)}
+                foreach(i = concellos) %dopar% {PBADownloader::PBADownloader(i, outdir, pbaurls)}
                 # Stop parallel
                 stopCluster(cl)
         } else {

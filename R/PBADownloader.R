@@ -21,25 +21,21 @@
 #' outdir <- '../02_OUTPUT/'
 #'
 #' # Single execution
-#' PBADownloader("Beade", outdir)
+#' PBADownloader("Beade", outdir, pbaurls)
 #'
 #' # Single execution in a serie of municipalities (on by one)
-#' concellos <- c("Paderne", "Taboada", "Parada De Sil", "Vedra")
+#' concellos <- list("Paderne", "Taboada", "Parada De Sil", "Vedra")
 #'
-#' lapply(concellos, PBADownloader, outdir)
+#' lapply(concellos, PBADownloader, outdir, pbaurls)
 #'
 #' # Download all
 #' concellos <- pbaurls$Concello
-#' lapply(concellos, PBADownloader, outdir)
+#' lapply(concellos, PBADownloader, outdir, pbaurls)
 #' }
-PBADownloader <- function(concello, outdir){
-
-        # load data (just it case if was not loaded before)
-        data("pbaurls")
+PBADownloader <- function(concello, outdir, pbaurls){
 
         # get zipurl given a concello (catch in data --> pbaurls.RData)
-        # find exact match only
-        exactconcello <- paste0('\\<',concello,'$\\>')
+        exactconcello <- paste0('\\<', concello, '$\\>')
         ziplink <- pbaurls$URL[which(grepl(exactconcello, pbaurls$Concello)==TRUE)]
 
         #---------------------------------------------------------------------------
