@@ -1,0 +1,22 @@
+Package: PBADownloader
+Type: Package
+Title: Library of functions to download full Plan Básico Autonómico of Galicia (in the future will do it for each Province)
+Version: 0.1.0
+Author: César Arquero Cabral (ModlEarth)
+Maintainer: César Arquero Cabral <c.arquero@modlearth.com>
+Description: The package download the PBA for a Municipality, list or all and creates a 
+        folder structure with all the original .zip and extract just the vectorial information from them. 
+        It allows the user to condense all these layers within a single .pgkg file to facilitate loading into a GIS project.
+License: GNU
+Encoding: UTF-8
+LazyData: true
+Dependencies: 
+        sf,
+        stringr,
+        tibble,
+        doParallel,
+        dplyr,
+        sp,
+        rgdal
+Imports:
+RoxygenNote: 7.1.1
